@@ -6,13 +6,13 @@ class Square extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      value:null
+      value: null
    }
   }
 
     render() {
       return (
-        <button className="square" onClick={() => this.setState({ value:"X" }) } >
+        <button className="square" onClick={() => this.setState({ value: this.props.value }) } >
           {this.state.value}
         </button>
       );
@@ -20,6 +20,15 @@ class Square extends React.Component {
   }
   
   class Board extends React.Component {
+
+    constructor(props) {
+      super(props)
+      this.state = {
+        value: [null,null,null,null,null,null,null,null,null]
+      }
+
+    }
+
     renderSquare(i) {
       return <Square value={i}/>;
     }
