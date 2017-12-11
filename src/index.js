@@ -2,16 +2,35 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-// class Square extends React.Component {
+class Time extends React.Component {
 
-//     render() {
-//       return (
-//         <button className="square" onClick={() => this.props.onClick() } >
-//           {this.props.value}
-//         </button>
-//       );
-//     }
-//   }
+  constructor(props){
+    super(props)
+    this.state = {
+      date: 123
+    }
+  }
+
+ theDate(){
+    // const date = date.slice();
+    const nowDate = Date.now()
+    this.setState({date:nowDate})
+
+    return  (
+      <p>
+       {this.state.date} 
+      </p>
+    )
+  }
+
+    render() {
+      return (
+        <div>
+          <h1 onClick={this.theDate()} >The time you have been playing is: {this.theDate()} </h1>
+        </div>
+      );
+    }
+  }
   
 function Square (props) {
   return (
@@ -94,17 +113,39 @@ function Square (props) {
       const history = this.state.history;
       const current = history[this.state.stepNumber];
       const winner = calculateWinner(current.squares);
-
+console.log(current)
       const moves = history.map( (step,move) => {
         const desc = move ?
         'Go to move #' + move :
         'Go to game start';
       return (
+      
         <li  key={move}>
           <button onClick={() => this.jumpTo(move)}>{desc}</button>
         </li>
+       
       );
       })
+      
+
+      // const coOrdinates = current.squares.map( (curr,index) => {
+
+      //   // console.log(index)
+      //   // const move = curr != null ?
+      //   // "move is row"+{index}+", colum 1" :
+      //   // "move is unknown"
+
+      //   switch (curr) {
+      //     case !null :
+      //       console.log(index);
+      //       break;
+      //     default:
+      //       console.log("everything is null");
+      //   }
+      //   return (
+      //     <p> {move}</p>
+      //   )
+      // } )
       
       let status;
       if (winner) {
@@ -114,6 +155,7 @@ function Square (props) {
       }
 
       return (
+        <div>
         <div className="game">
           <div className="game-board">
             <Board 
@@ -124,7 +166,12 @@ function Square (props) {
           <div className="game-info">
             <div>{status}</div>
             <ol>{moves}</ol>
+            {/* <ol>{coOrdinates}</ol> */}
           </div>
+        </div>
+          <section className="gameTime">
+             <Time />
+          </section>
         </div>
       );
     }
@@ -153,6 +200,8 @@ function Square (props) {
     for (let i = 0; i < lines.length; i++) {
       const [a, b, c] = lines[i];
       if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+        
+        console.log('sqa',squares[a])
         return squares[a];
       }
     }
