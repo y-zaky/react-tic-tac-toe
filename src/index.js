@@ -5,28 +5,25 @@ import './index.css';
 class Time extends React.Component {
 
   constructor(props){
-    super(props)
+    super(props) // super calls the consturctor of the parent object/ the super object/thing it extends react.component.
     this.state = {
-      date: 123
+      date: Date.now()
     }
+    // this.setDate = this.setDate.bind(this)
   }
 
- theDate(){
+ setDate(){
     // const date = date.slice();
     const nowDate = Date.now()
-    this.setState({date:nowDate})
+   this.setState({date:nowDate})
 
-    return  (
-      <p>
-       {this.state.date} 
-      </p>
-    )
+//when a funciton ends it returns undefined by default
   }
 
     render() {
       return (
         <div>
-          <h1 onClick={this.theDate()} >The time you have been playing is: {this.theDate()} </h1>
+          <h1 onClick={ () => this.setDate() } >The time you have been playing is: {this.state.date} </h1>
         </div>
       );
     }
@@ -79,20 +76,25 @@ function Square (props) {
       this.state = {
         history: [{
           squares: Array(9).fill(null),
+          location: []
         }],
         xIsNext: true,
         stepNumber:0
       }
     }
 
-    jumpTo(step) {
+    jumpTo() {
       this.setState({
-        stepNumber: step,
-        xIsNext: (step % 2) === 0,
+        stepNumber: arguments[0],
+        xIsNext: (arguments[0] % 2) === 0,
+
       });
     }  
 
     handleClick(i) {
+      debugger;
+  const x = i%3;
+  const y = (i-x)/3;
       const history = this.state.history.slice(0, this.state.stepNumber + 1);
       const current = history[history.length - 1];
       const squares = current.squares.slice();
@@ -103,6 +105,7 @@ function Square (props) {
       this.setState({
         history: history.concat([{
           squares: squares,
+          location: [x,y]
         }]),
         stepNumber: history.length,
         xIsNext: !this.state.xIsNext,
@@ -116,7 +119,7 @@ function Square (props) {
 console.log(current)
       const moves = history.map( (step,move) => {
         const desc = move ?
-        'Go to move #' + move :
+        'Go to move #' + move + step.location[0] + step.location[1]:
         'Go to game start';
       return (
       
@@ -207,3 +210,25 @@ console.log(current)
     }
     return null;
   }
+
+
+  /// the bit below was to help me 
+
+//   var car = {
+//     distance: 0,
+//     drive(){
+//       this.distance = 10;
+//     }
+//   };
+
+//   car.drive(); /// here method, BECAUSE its a funciton that belongs to an object 
+
+//   var drive = car.drive; // here function , because it no longer belongs to an object. 
+// //this sets window.drive to 10 OR undefined depending on v of javascript
+//   drive();
+
+// How do you know what the This variable is? Well, it all depends on the contect its being invoked in. If the contect is a method, then this refers to the object. If the context of invocation is a function .
+
+//State, is a property being defined locally, biut props, is a property that is being passed from parent to child. You cannot define props. 
+
+  
